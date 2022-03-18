@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div>
+<h1>中文分词</h1>
+<input placeholder="请输入分词的文件路径"  id="path" style="width:30%">
+<button type="button" onclick="loadDoc()">点击执行分词</button>
+</div>
+<div id = "demo">
+<h2>HTML Table</h2>
+
+<table>
+  <tr>
+    <th>关键字</th>
+    <th>频次</th>
+  </tr>
+  <tr>
+    <td>Alfreds Futterkiste</td>
+    <td>Maria Anders</td>
+  </tr>
+</table>
+</div>
+<script>
+function loadDoc() {
+  var path = document.getElementById("path").value;
+  console.log(path)
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      
+      var html = "<h2>关键词频率</h2><table><tr><th>关键字</th><th>频次</th></tr>";
+      var data = eval(this.responseText)
+      for(var i in data) {
+        html += '<tr><td>' + data[i][0] + '</td><td>' +
+            data[i][1] + '</td></tr>';
+      }
+      html += "</table>"
+      document.getElementById("demo").innerHTML = html
+    }
+  };
+  xhttp.open("GET", "cutWord?path="+path, true);
+  xhttp.send();
+}
+</script>
+
+</body>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</html>
